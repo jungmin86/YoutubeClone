@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
 import Dropzone from 'react-dropzone';
-import { STATES } from 'mongoose';
+import Axios from 'axios';
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -17,6 +17,7 @@ const CategoryOptions = [
     {value: 2, label: "Music"},
     {value: 3, label: "Pets & Animals"}
 ]
+
 
 function VideoUploadPage() {
 
@@ -43,21 +44,40 @@ function VideoUploadPage() {
         setCategory(e.currentTarget.value)
     }
 
+    const onDrop = (files) => {
+
+        let formData = new FormData;
+        const config = {
+            header: { 'content-type': 'multipart/form-data' } //파일을 올릴 때는 header에 content-type을 해줘야 오류를 막을 수 있다
+        }
+        formData.append("file", files[0])
+
+        Axios.post('/api/video/uploadfiles', formData, config)
+            .then(response => {
+                if (response.data.success) {
+                    console.log(response.data)
+                } else {
+                    alert("비디오 업로드를 실패했습니다.")
+                }
+            })
+
+
+    }
 
 
     return ( 
         <div style={{maxWidth: '700px', margin: '2rem auto'}}>
             <div style = {{textAlign: 'center', marginBottom: '2rem'}}>
-                <Title level={2}>Uploaod Video</Title>
+                <Title level={2}>Upload Video</Title>
             </div>
 
             <Form onSubmit>
                 <div style={{display:'flex', justifyContent:'space-between'}}> 
                     {/*Drop zone*/}
                     <Dropzone
-            onDrop
-            multiple //한번에 파일을 2개이상올릴껀지
-            maxSize//최대사이즈 조절
+            onDrop = {onDrop}
+            multiple = {false} //한번에 파일을 2개이상올릴껀지
+            maxSize = {100000000} //최대사이즈 조절
           >
             {({ getRootProps, getInputProps }) => (
               <div
