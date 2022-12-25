@@ -25,6 +25,8 @@ function VideoUploadPage() {
     const [Description, setDescription] = useState("")
     const [Private, setPrivate] = useState(0)
     const [Category, setCategory] = useState("Film & Animation")
+    const [Duration, setDuration] = useState("")
+    const [Thumbnail, setThumbnail] = useState("")
 
     const onTitleChange = (e) => { //e: 이벤트
         // console.log(e.currentTarget.value)
@@ -56,6 +58,22 @@ function VideoUploadPage() {
             .then(response => {
                 if (response.data.success) {
                     console.log(response.data)
+
+                    let variable = {
+                        url: response.data.url,
+                        fileName: response.data.fileName
+                    }
+
+                    Axios.post('/api/video/thumbnail', variable)
+                    .then(response => { console.log("됐다!")
+                        if(response.data.success) {
+                            console.log(response.data);
+                            setDuration(response.data.fileDuration)
+                            setThumbnail(response.data.thumbsFilePath)
+                        } else {
+                            alert("썸네일 생성에 실패했습니다.")
+                        }
+                    } )
                 } else {
                     alert("비디오 업로드를 실패했습니다.")
                 }
