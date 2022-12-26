@@ -25,6 +25,7 @@ function VideoUploadPage() {
     const [Description, setDescription] = useState("")
     const [Private, setPrivate] = useState(0)
     const [Category, setCategory] = useState("Film & Animation")
+    const [FilePath, setFilePath] = useState("")
     const [Duration, setDuration] = useState("")
     const [Thumbnail, setThumbnail] = useState("")
 
@@ -64,12 +65,14 @@ function VideoUploadPage() {
                         fileName: response.data.fileName
                     }
 
+                    setFilePath(response.data.url)
+
                     Axios.post('/api/video/thumbnail', variable)
-                    .then(response => { console.log("됐다!")
+                    .then(response => { console.log("됐다");
                         if(response.data.success) {
                             console.log(response.data);
                             setDuration(response.data.fileDuration)
-                            setThumbnail(response.data.thumbsFilePath)
+                            setThumbnail(response.data.url)
                         } else {
                             alert("썸네일 생성에 실패했습니다.")
                         }
@@ -93,10 +96,10 @@ function VideoUploadPage() {
                 <div style={{display:'flex', justifyContent:'space-between'}}> 
                     {/*Drop zone*/}
                     <Dropzone
-            onDrop = {onDrop}
-            multiple = {false} //한번에 파일을 2개이상올릴껀지
-            maxSize = {100000000} //최대사이즈 조절
-          >
+                        onDrop = {onDrop}
+                        multiple = {false} //한번에 파일을 2개이상올릴껀지
+                        maxSize = {100000000} //최대사이즈 조절
+                    >
             {({ getRootProps, getInputProps }) => (
               <div
                 style={{
@@ -112,6 +115,12 @@ function VideoUploadPage() {
                         )}
                     </Dropzone>
                     {/*Thumbnail*/}
+
+                    {Thumbnail && //썸네일이 있을 때에만
+                    <div>
+                        <img src={`http://localhost:5000/${Thumbnail}`} alt="thumbnail"></img>
+                    </div>
+                    }
                     <div>
                         <img src alt />
                     </div>

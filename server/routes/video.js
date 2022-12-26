@@ -65,7 +65,7 @@ router.post('/thumbnail', (req, res) => {
         console.log("Will generate " + filenames.join(', '));
         console.log(filenames);
 
-        filePath = "uploads/thumbnails" + filenames[0];
+        filePath = "uploads/thumbnails/" + filenames[0];
     })
     .on('end', function() { //다 생성하고 무엇을 할 것인지
         console.log("Screenshots taken");
@@ -77,7 +77,7 @@ router.post('/thumbnail', (req, res) => {
     })
     .screenshots( {  //
         count: 3, //3개의 썸네일 찍을 수 있음
-        folder: 'uploads/thumbnails', //썸네일 저장될 위치
+        folder: 'uploads/thumbnails/', //썸네일 저장될 위치
         size: '320x240',
         filename: 'thumbnail-%b.png' //썸네일-원래 네임(익스텐션 제외)
     })
