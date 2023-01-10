@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const videoSchema = mongoose.Schema({
     
     writer: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+        type: Schema.Types.ObjectId, //특이하다
+        ref: 'User' //유저 모델에서 다 불러올 수 있다
     },
     title: {
         type: String,
@@ -33,7 +33,7 @@ const videoSchema = mongoose.Schema({
     thumbnail: {
         type: String
     }
-}, { timestamps: true })
+}, { timestamps: true }) //만든 date, 업데이트 date 표시됨
 
 const Video = mongoose.model('Video', videoSchema);
 
