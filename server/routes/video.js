@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { Video } = require("../models/Video");
-const { auth } = require("../middleware/auth");
+const { Video } = require("../models/Video.js");
+const { auth } = require("../middleware/auth.js");
 const multer = require('multer');
 var ffmpeg = require('fluent-ffmpeg');
 
@@ -18,7 +18,7 @@ const fileFilter = (req, file, cb) => {
     const typeArray = file.mimetype.split('/');
     const fileType = typeArray[1];
         // const ext = path.extname(file.originalname)
-        console.log(fileType+"박스는 보도록")
+        console.log(fileType)
         if (fileType == 'mp4') {
             cb(null, true);
         }
@@ -41,6 +41,27 @@ router.post('/uploadfiles', (req, res) => {
         return res.json({ success: true, url: res.req.file.path, fileName: res.req.file.filename })
      })
 })
+
+// router.post('/getVideoDetail', (req, res) => {
+
+//     Video.findOne({'_id' : req.body.videoId})
+//         .populate('writer')
+//         .exec((err, videoDetail) => {
+//             if(err) return res.status(400).send(err);
+//             return res.status(200).json({success: true, videoDetail})
+//         })
+    
+// })
+
+router.post("/getVideoDetail", (req, res) => {
+
+    Video.findOne({ "_id" : req.body.videoId })
+    .populate('writer')
+    .exec((err, VideoDetail) => {
+        if(err) return res.status(400).send(err);
+        res.status(200).json({ success: true, VideoDetail })
+    })
+});
 
 router.post('/uploadVideo', (req, res) => {
     // 비디오 정보들을 mongoDB에 저장한다
