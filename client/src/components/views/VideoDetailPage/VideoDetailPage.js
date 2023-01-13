@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import {Row, Col,  Avatar, List} from 'antd';
 import Axios from "axios";
 // import { response } from "express";
-import SideVideo from './Sections/SideVideo.js'
+import SideVideo from './Sections/SideVideo.js';
+import Subscribe from './Sections/Subscribe.js';
 
 function VideoDetailPage(props) {
 
@@ -35,8 +36,7 @@ function VideoDetailPage(props) {
                     <video style={{ width: '100%' }} src={`http://localhost:5000/${VideoDetail.filePath}`} controls></video>
     
                         <List.Item
-                            actions >
-    
+                            actions={[<Subscribe userTo={VideoDetail.writer && VideoDetail.writer._id} />]} >
                                 <List.Item.Meta
                                     avatar={<Avatar src={VideoDetail.writer && VideoDetail.writer.image} />}
                                     title={VideoDetail.writer && VideoDetail.writer.name}
