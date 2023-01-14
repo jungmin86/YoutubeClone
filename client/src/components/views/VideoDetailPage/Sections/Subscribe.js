@@ -31,7 +31,7 @@ function Subscribe(props) {
                     alert('정보를 받아오지 못했습니다.')
                 }
             })
-    }, [0])
+    })
 
     const onSubscribe = () => {
         
