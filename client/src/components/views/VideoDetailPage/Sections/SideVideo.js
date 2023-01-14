@@ -9,7 +9,6 @@ function SideVideo() {
         Axios.get('/api/video/getVideos')
         .then(response => {
             if(response.data.success) {
-                console.log(response.data)
                 setSideVideos(response.data.video)
             } else {
                 alert('비디오 가져오기를 실패했습니다.')

@@ -19,14 +19,12 @@ function VideoDetailPage(props) {
         Axios.post('/api/video/getVideoDetail', variable)
             .then(response => {
                 if(response.data.success) {
-                    console.log(response.data)
                     setVideoDetail(response.data.VideoDetail);
                 } else {
                     alert('비디오 정보를 가져오길 실패했습니다.');
                 }
             })
     }, []);
-    console.log(VideoDetail.filePath)
         return (
             
             <Row gutter={[16,16]}>
@@ -36,7 +34,7 @@ function VideoDetailPage(props) {
                     <video style={{ width: '100%' }} src={`http://localhost:5000/${VideoDetail.filePath}`} controls></video>
     
                         <List.Item
-                            actions={[<Subscribe userTo={VideoDetail.writer && VideoDetail.writer._id} />]} >
+                            actions={[<Subscribe userTo={VideoDetail.writer && VideoDetail.writer._id} userFrom={localStorage.getItem('userId')} />]} >
                                 <List.Item.Meta
                                     avatar={<Avatar src={VideoDetail.writer && VideoDetail.writer.image} />}
                                     title={VideoDetail.writer && VideoDetail.writer.name}
