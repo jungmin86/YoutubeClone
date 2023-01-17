@@ -31,20 +31,9 @@ function VideoDetailPage(props) {
                 }
             })
 
-        // Axios.post('/api/comment/getComments', variable)
-        //     .then(response => {
-        //         if(response.data.success) {
-        //             setComments(response.data.comments)
-
-        //             console.log(response.data.comments)
-        //         } else {
-        //             alert('코멘트 정보를 가져오는 것을 실패했습니다.')
-        //         }
-        //     })
         Axios.post('/api/comment/getComments', variable)
         .then(response => {
             if (response.data.success) {
-                console.log('response.data.comments',response.data.comments)
                 setComments(response.data.comments)
             } else {
                 alert('코멘트 정보를 가져오는 것을 실패했습니다.')
@@ -80,7 +69,7 @@ function VideoDetailPage(props) {
                         </List.Item>
     
                         {/* comments */}
-                        <Comment refreshFunction={refreshFunction}commentLists={Comments} postId={videoId}/>
+                        <Comment refreshFunction={refreshFunction} commentLists={Comments} postId={videoId}/>
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>
