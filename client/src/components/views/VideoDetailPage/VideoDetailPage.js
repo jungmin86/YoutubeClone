@@ -5,7 +5,8 @@ import Axios from "axios";
 // import { response } from "express";
 import SideVideo from './Sections/SideVideo.js';
 import Subscribe from './Sections/Subscribe.js';
-import Comment from './Sections/Comment.js'
+import Comment from './Sections/Comment.js';
+import LikeDislikes from './Sections/LikeDislikes.js'
 
 
 function VideoDetailPage(props) {
@@ -46,7 +47,7 @@ function VideoDetailPage(props) {
         setComments(Comments.concat(newComment));
     }
     
-    const subscribeButton = VideoDetail.writer && (VideoDetail.writer._id !== localStorage.getItem('userId')) 
+    const subscribeButton = VideoDetail && VideoDetail.writer && (VideoDetail.writer._id !== localStorage.getItem('userId')) 
         && <Subscribe 
         userTo={VideoDetail.writer && VideoDetail.writer._id} 
         userFrom={localStorage.getItem('userId')} />
@@ -57,14 +58,17 @@ function VideoDetailPage(props) {
                 <Col lg={18} xs={24}>
     
                     <div style={{width: '100%', padding: '3rem 4rem'}}>
-                    <video style={{ width: '100%' }} src={`http://localhost:5000/${VideoDetail.filePath}`} controls></video>
+                    <video style={{ width: '100%' }} src={`http://localhost:5000/${VideoDetail?VideoDetail.filePath:null}`} controls></video>
     
                         <List.Item
-                            actions={[subscribeButton]} >
+                            actions={[<LikeDislikes video 
+                                userId={localStorage.getItem('userId')} 
+                            videoId={props.match.params.videoId} 
+                            />,VideoDetail && subscribeButton]} >
                                 <List.Item.Meta
-                                    avatar={<Avatar src={VideoDetail.writer && VideoDetail.writer.image} />}
-                                    title={VideoDetail.writer && VideoDetail.writer.name}
-                                    description={VideoDetail.description}
+                                    avatar={<Avatar src={VideoDetail && VideoDetail.writer && VideoDetail.writer.image} />}
+                                    title={VideoDetail && VideoDetail.writer && VideoDetail.writer.name}
+                                    description={VideoDetail && VideoDetail.description}
                                 />
                         </List.Item>
     
