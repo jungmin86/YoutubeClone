@@ -51,14 +51,14 @@ function VideoDetailPage(props) {
         && <Subscribe 
         userTo={VideoDetail.writer && VideoDetail.writer._id} 
         userFrom={localStorage.getItem('userId')} />
-
+    if(VideoDetail.writer) {
         return (
             
             <Row gutter={[16,16]}>
                 <Col lg={18} xs={24}>
     
                     <div style={{width: '100%', padding: '3rem 4rem'}}>
-                    <video style={{ width: '100%' }} src={`http://localhost:5000/${VideoDetail?VideoDetail.filePath:null}`} controls></video>
+                    <video style={{ width: '100%' }} src={`http://localhost:5000/${VideoDetail.filePath}`} controls></video>
     
                         <List.Item
                             actions={[<LikeDislikes video 
@@ -66,9 +66,9 @@ function VideoDetailPage(props) {
                             videoId={props.match.params.videoId} 
                             />,VideoDetail && subscribeButton]} >
                                 <List.Item.Meta
-                                    avatar={<Avatar src={VideoDetail && VideoDetail.writer && VideoDetail.writer.image} />}
-                                    title={VideoDetail && VideoDetail.writer && VideoDetail.writer.name}
-                                    description={VideoDetail && VideoDetail.description}
+                                    avatar={<Avatar src={VideoDetail.writer && VideoDetail.writer.image} />}
+                                    title={VideoDetail.writer && VideoDetail.writer.name}
+                                    description={VideoDetail.description}
                                 />
                         </List.Item>
     
@@ -82,6 +82,15 @@ function VideoDetailPage(props) {
             </Row>
     
         )
+    }
+
+    else {
+        return (
+            <div>Loading...</div>
+        )
+    }
+
+        
     
 }
 
